@@ -225,8 +225,7 @@ def drawMenu(win):
     win.blit(text, textRect)
     euclidButton.draw(win)
     lButton.draw(win)
-    astarButton.draw(win)
-    otherButton.draw(win)
+    removeDrawing.draw(win)
     startButton.draw(win)
     
     
@@ -244,8 +243,8 @@ def get_clicked_pos(pos, rows, width):
 startButton = button(TURQUOISE, 275, 600, 250, 100, 'Start')
 euclidButton = button(BLUE, 100, 300, 250, 100, 'Euclidian Distance')
 lButton = button(BLUE, 450, 300, 250, 100, 'L-Distance')
-astarButton = button(BLUE, 100, 450, 250, 100, 'A* Distance algorithm')
-otherButton = button(BLUE, 450, 450, 250, 100, 'Other Distance Algorithm')
+removeDrawing = button(BLUE, 100, 450, 250, 100, 'Skip Drawing Visualization')
+
 
 def main(win, width):
     ROWS = 50
@@ -256,7 +255,7 @@ def main(win, width):
 
     euclid = False
     aStar = True
-    show_draw = False
+    show_draw = True
 
     menu = True
     run = False
@@ -278,8 +277,9 @@ def main(win, width):
                     run = True
                     euclidButton.color = BLUE
                     lButton.color = BLUE
-                    astarButton.color = BLUE
-                    otherButton.color = BLUE
+                    removeDrawing.color = BLUE
+                    
+    
                 elif euclidButton.mouseHover(pos):
                     euclid = True
                     euclidButton.color = RED
@@ -288,14 +288,15 @@ def main(win, width):
                     euclid = False
                     lButton.color = RED
                     euclidButton.color = BLUE
-                elif astarButton.mouseHover(pos):
-                    aStar = True
-                    astarButton.color = RED
-                    otherButton.color = BLUE
-                elif otherButton.mouseHover(pos):
-                    aStar = False
-                    otherButton.color = RED
-                    astarButton.color = BLUE
+                elif removeDrawing.mouseHover(pos):
+                    if removeDrawing.color == BLUE:
+                        removeDrawing.color = RED
+                        show_draw = False
+                    else:
+                        removeDrawing.color = BLUE
+                        show_draw = True
+                    
+
     while run:
         draw(win, grid, ROWS, width)
         for event in pygame.event.get():
